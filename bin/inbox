@@ -3,5 +3,5 @@
 API_URL=http://localhost:4000/api/v1/resources
 URL="$1"
 
-curl --data-urlencode "resource[url]=$URL" "$API_URL"
+curl --include --data-urlencode "resource[uri]=$URL" "$API_URL"
 echo
