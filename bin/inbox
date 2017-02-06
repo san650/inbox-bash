@@ -1,7 +1,21 @@
 #!/usr/bin/env bash
 
 API_URL=http://localhost:4000/api/v1/resources
-URL="$1"
+COMMAND="$1"
+URL="$2"
 
-curl --include --data-urlencode "resource[uri]=$URL" "$API_URL"
+case $COMMAND in
+  add)
+    curl --include --data-urlencode "resource[uri]=$URL" "$API_URL"
+    ;;
+  list)
+    curl "$API_URL"
+    ;;
+  *)
+    echo "Usage:
+      inbox list
+      inbox add http://www.example.com/
+    "
+esac
+
 echo
