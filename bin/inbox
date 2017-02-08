@@ -2,14 +2,22 @@
 
 API_URL=http://localhost:4000/api/v1/resources
 COMMAND="$1"
-URL="$2"
+shift
 
 case $COMMAND in
   add)
-    curl --include --data-urlencode "resource[uri]=$URL" --data-urlencode "resource[tags][]=url" --data-urlencode "resource[tags][]=shell" "$API_URL"
+    URL="$1"
+    curl --include --header "Accept: application/json" --data-urlencode "resource[uri]=$URL" --data-urlencode "resource[tags][]=url" --data-urlencode "resource[tags][]=shell" "$API_URL"
     ;;
   list)
-    curl "$API_URL"
+    TAGS=()
+
+    while (( "$#" )); do
+      TAGS+=("--data-urlencode tags[]=$1")
+      shift
+    done
+
+    curl --header "Accept: text/plain" "$API_URL" --get ${TAGS[@]}
     ;;
   *)
     echo "Usage:
