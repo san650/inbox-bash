@@ -12,9 +12,21 @@ $ inbox add http://www.wikipedia.org/
 
 ### List all resources
 
+Return all resources
+
 ```
 $ inbox list
 ```
+
+Return resources filtered by tags
+
+```
+$ inbox list shell web ~host
+```
+
+Note that by prefixing the tag with `~` it will exclude resources that contains
+said tag.
+
 
 ## License
 
