@@ -6,7 +6,7 @@ URL="$2"
 
 case $COMMAND in
   add)
-    curl --include --data-urlencode "resource[uri]=$URL" "$API_URL"
+    curl --include --data-urlencode "resource[uri]=$URL" --data-urlencode "resource[tags][]=url" --data-urlencode "resource[tags][]=shell" "$API_URL"
     ;;
   list)
     curl "$API_URL"
