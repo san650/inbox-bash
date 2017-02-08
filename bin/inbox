@@ -12,21 +12,27 @@ function list() {
     shift
   done
 
-  curl --header "Accept: text/plain" "$API_URL" --get ${TAGS[@]}
+  curl --header "Accept: text/plain" \
+    --get ${TAGS[@]} \
+    "$API_URL"
 }
 
 function add() {
   URL="$1"
   shift
 
-  TAGS=('--data-urlencode resource[tags][]=url' '--data-urlencode resource[tags][]=shell')
+  TAGS=()
 
   while (( "$#" )); do
     TAGS+=("--data-urlencode resource[tags][]=$1")
     shift
   done
 
-  curl --include --header "Accept: application/json" --data-urlencode "resource[uri]=$URL" ${TAGS[@]} "$API_URL"
+  curl --include \
+    --header "Accept: application/json" \
+    --data-urlencode "resource[uri]=$URL" \
+    ${TAGS[@]} \
+    "$API_URL"
 }
 
 function help_summary() {
@@ -38,7 +44,7 @@ function help_summary() {
 
 case $COMMAND in
   add)
-    add $@
+    add $@ url shell
     ;;
   list)
     list $@
