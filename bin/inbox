@@ -4,26 +4,47 @@ API_URL=http://localhost:4000/api/v1/resources
 COMMAND="$1"
 shift
 
+function list() {
+  TAGS=()
+
+  while (( "$#" )); do
+    TAGS+=("--data-urlencode tags[]=$1")
+    shift
+  done
+
+  curl --header "Accept: text/plain" "$API_URL" --get ${TAGS[@]}
+}
+
+function add() {
+  URL="$1"
+  shift
+
+  TAGS=('--data-urlencode resource[tags][]=url' '--data-urlencode resource[tags][]=shell')
+
+  while (( "$#" )); do
+    TAGS+=("--data-urlencode resource[tags][]=$1")
+    shift
+  done
+
+  curl --include --header "Accept: application/json" --data-urlencode "resource[uri]=$URL" ${TAGS[@]} "$API_URL"
+}
+
+function help_summary() {
+  echo "Usage:
+    inbox list [tags]
+    inbox add http://www.example.com/ [tags]
+  "
+}
+
 case $COMMAND in
   add)
-    URL="$1"
-    curl --include --header "Accept: application/json" --data-urlencode "resource[uri]=$URL" --data-urlencode "resource[tags][]=url" --data-urlencode "resource[tags][]=shell" "$API_URL"
+    add $@
     ;;
   list)
-    TAGS=()
-
-    while (( "$#" )); do
-      TAGS+=("--data-urlencode tags[]=$1")
-      shift
-    done
-
-    curl --header "Accept: text/plain" "$API_URL" --get ${TAGS[@]}
+    list $@
     ;;
   *)
-    echo "Usage:
-      inbox list
-      inbox add http://www.example.com/
-    "
+    help_summary
 esac
 
 echo
