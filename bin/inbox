@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 
-API_URL=http://localhost:4000/api/v1/resources
+if [ -z ${INBOX_URL} ]; then
+  echo "Missing INBOX_URL config"
+  echo "Remember to include your username and password. e.g. INBOX_URL=https://username:password@example.com:port/ inbox list"
+  exit 1
+fi
+
+API_URL="${INBOX_URL}api/v1/resources"
 COMMAND="$1"
 shift
 

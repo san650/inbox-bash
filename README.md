@@ -2,6 +2,20 @@
 
 Bash client for [Inbox](https://github.com/san650/inbox-server).
 
+## Configuration
+
+Add a `INBOX_URL` environment variable with your inbox-server URL.
+
+e.g. Add the following to your `bashrc` configuration file
+
+```
+INBOX_URL=https://username:password@example.com:port/
+```
+
+*Don't forget to end the URL with `/`*
+
+Remember that `inbox-server` uses HTTP BASIC Authentication
+
 ## Usage
 
 ### Add a resource
