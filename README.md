@@ -1,4 +1,4 @@
-# inbox.sh
+# inbox-bash
 
 Bash client for [Inbox](https://github.com/san650/inbox-server).
 
@@ -44,6 +44,6 @@ said tag.
 
 ## License
 
-inbox.sh is licensed under the MIT license.
+inbox-bash is licensed under the MIT license.
 
 See [LICENSE](./LICENSE) for the full license text.
