@@ -2,11 +2,15 @@
 
 if [ -z ${INBOX_URL} ]; then
   echo "Missing INBOX_URL config"
-  echo "Remember to include your username and password. e.g. INBOX_URL=https://username:password@example.com:port/ inbox list"
+  echo "Remember to include your username and password. e.g. INBOX_URL=https://example.com:port/ INBOX_USER=john INBOX_PASSWORD=secret inbox list"
   exit 1
 fi
 
 API_URL="${INBOX_URL}api/v1/resources"
+API_USER=$INBOX_USER
+API_PASSWORD=$INBOX_PASSWORD
+# FLAGS="--verbose --basic --user ${API_USER}:${API_PASSWORD}"
+FLAGS="--basic --user ${API_USER}:${API_PASSWORD}"
 COMMAND="$1"
 shift
 
@@ -18,9 +22,9 @@ function list() {
     shift
   done
 
-  curl --header "Accept: text/plain" \
-    --get ${TAGS[@]} \
-    "$API_URL"
+  curl $FLAGS \
+    --header "Accept: text/plain" \
+    --get ${TAGS[@]} "$API_URL"
 }
 
 function add() {
@@ -34,7 +38,8 @@ function add() {
     shift
   done
 
-  curl --include \
+  curl $FLAGS \
+    --include \
     --header "Accept: application/json" \
     --data-urlencode "resource[uri]=$URL" \
     ${TAGS[@]} \
